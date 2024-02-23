@@ -1,9 +1,5 @@
 spring:
   security:
-    user:
-      name: admin
-      password: "{noop}secret"
-      roles: admin
     oauth2:
       authorizationserver:
         client:
@@ -11,7 +7,7 @@ spring:
             require-authorization-consent: true
             registration:
               client-id: client
-              client-secret: "{noop}secret"
+              client-secret: "$2a$10$Oi0rPhwffyuY85j7jsjJkekSRak5yRu2JpaCq4bVEYBR1znKLF3AK" #secret
               client-authentication-methods:
                 - client_secret_basic
               authorization-grant-types:

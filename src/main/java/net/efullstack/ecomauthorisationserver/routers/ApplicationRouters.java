@@ -1,23 +1,25 @@
 package net.efullstack.ecomauthorisationserver.routers;
 
-import net.efullstack.ecomauthorisationserver.models.Customer;
+import lombok.RequiredArgsConstructor;
+import net.efullstack.ecomauthorisationserver.models.User;
+import net.efullstack.ecomauthorisationserver.repositories.UserRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
+@RequiredArgsConstructor
 public class ApplicationRouters {
+    final UserRepository userRepository;
+    final PasswordEncoder passwordEncoder;
 
-    @GetMapping("/register")
-    public ResponseEntity<Map> getRegister() {
-        return ResponseEntity.ok(Map.of("message","success"));
-    }
     @PostMapping("/register")
-    public ResponseEntity<Customer> register(@RequestBody Customer customer) {
-        return ResponseEntity.ok(customer);
+    public ResponseEntity<User> register(@RequestBody User user) {
+
+        return ResponseEntity.ok(userRepository.save(
+                new User(null, user.username(), passwordEncoder.encode(user.password()))
+        ));
     }
 }
