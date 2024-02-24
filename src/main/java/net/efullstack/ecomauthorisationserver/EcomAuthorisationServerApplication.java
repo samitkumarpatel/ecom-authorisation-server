@@ -64,18 +64,25 @@ public class EcomAuthorisationServerApplication {
 	public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) {
 		http
 				.authorizeHttpRequests((authorize) -> authorize
+						//.requestMatchers(AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/register")).permitAll()
+						.requestMatchers("/error","/signup","/logout", "/register").permitAll()
 						.anyRequest().authenticated()
 				)
+				.csrf((csrf) -> csrf
+						.ignoringRequestMatchers("/register")
+				)
 				.formLogin(Customizer.withDefaults());
+//				.formLogin(f -> f.loginPage("/login").permitAll())
+//				.logout(Customizer.withDefaults());
 		return http.build();
 	}
 
-	@Bean
+	/*@Bean
 	//https://docs.spring.io/spring-security/reference/5.8/migration/servlet/config.html
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return (web) -> web
 				.ignoring()
-				.requestMatchers("/error")
+				.requestMatchers("/error", "/signup")
 				.requestMatchers(HttpMethod.POST, "/register");
-	}
+	}*/
 }
