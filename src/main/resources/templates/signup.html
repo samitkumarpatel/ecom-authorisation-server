@@ -1,13 +1,100 @@
-<!doctype html>
-<html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport"
-            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <title>Document</title>
-  </head>
-  <body>
-    <a href="/login">Login</a>
-  </body>
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>signup</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+
+            h1 {
+                text-align: center;
+                margin-top: 50px;
+            }
+
+            form {
+                width: 300px;
+                margin: 0 auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+
+            input[type="submit"],
+            input[type="reset"] {
+                width: 100%;
+                padding: 10px;
+                margin-top: 10px;
+                background-color: #4caf50;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+            input[type="submit"]:disabled {
+                background-color: gray;
+            }
+            input[type="submit"]:hover,
+            input[type="reset"]:hover {
+                background-color: #45a049;
+            }
+
+            input[type="submit"]:focus,
+            input[type="reset"]:focus {
+                outline: none;
+            }
+
+        </style>
+    </head>
+    <body>
+    <h1>Please Signup</h1>
+    <form action="#" th:action="@{/signup}" th:object="${user}" method="post">
+        <p>Username: <input type="text" th:field="*{username}" /></p>
+        <p>Password: <input id="password" type="password" th:field="*{password}" /></p>
+        <p>Repeat Password: <input id="repeat-password" type="password" /></p>
+        <p style="color: red" id="warning-message"></p>
+        <p><input type="submit" id="submit-btn" value="Submit" disabled /> <input type="reset" value="Reset" /></p>
+    </form>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const repeatPasswordInput = document.getElementById('repeat-password');
+        const submitButton = document.getElementById('submit-btn');
+        const warningMessage = document.getElementById('warning-message');
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            const repeatPassword = repeatPasswordInput.value;
+            if(password || repeatPassword) {
+                warningMessage.textContent = 'password did not match yet'
+            }
+            if (password === repeatPassword) {
+                submitButton.disabled = false;
+                warningMessage.textContent = ''
+            } else {
+                submitButton.disabled = true;
+                warningMessage.textContent = 'password did not match yet'
+            }
+        }
+
+        passwordInput.addEventListener('input', validatePassword);
+        repeatPasswordInput.addEventListener('input', validatePassword);
+
+    </script>
+</body>
 </html>
