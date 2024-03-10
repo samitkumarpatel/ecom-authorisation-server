@@ -22,6 +22,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
@@ -72,8 +75,7 @@ public class EcomAuthorisationServerApplication {
 		// Accept access tokens for User Info and/or Client Registration
 		.oauth2ResourceServer((resourceServer) -> resourceServer
 				.jwt(Customizer.withDefaults()));
-		http.cors(Customizer.withDefaults());
-		return http.build();
+		return http.cors(Customizer.withDefaults()).build();
 	}
 
 	@Bean
@@ -89,14 +91,20 @@ public class EcomAuthorisationServerApplication {
 				.csrf((csrf) -> csrf
 						.ignoringRequestMatchers("/register")
 				)
-				.formLogin(Customizer.withDefaults())
-				.cors(Customizer.withDefaults())
-				/*.formLogin(f -> f.loginPage("/login").permitAll())
-				.logout((logout) -> logout
-						.logoutSuccessUrl("/logout")
-						.permitAll()
-				)*/;
-		return http.build();
+				.formLogin(Customizer.withDefaults());
+		return http.cors(Customizer.withDefaults()).build();
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		config.addAllowedOrigin("*");
+		config.setAllowCredentials(true);
+		source.registerCorsConfiguration("/**", config);
+		return source;
 	}
 
 	/*@Bean
@@ -107,4 +115,5 @@ public class EcomAuthorisationServerApplication {
 				.requestMatchers("/error", "/signup")
 				.requestMatchers(HttpMethod.POST, "/register");
 	}*/
+
 }
