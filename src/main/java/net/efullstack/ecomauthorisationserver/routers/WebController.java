@@ -33,7 +33,7 @@ public class WebController {
     }
 
     @PostMapping("/signup")
-    public String greetingSubmit(@ModelAttribute User user, Model model) {
+    public String signupSubmit(@ModelAttribute User user, Model model) {
         model.addAttribute("greeting", user);
         System.out.println(user);
         userRepository.save(new User(null, user.username(), passwordEncoder.encode(user.password())));

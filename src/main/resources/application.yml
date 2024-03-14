@@ -39,4 +39,4 @@ spring:
             require-authorization-consent: true
             require-proof-key: true
             token:
-              access-token-time-to-live: 30s
+              access-token-time-to-live: 15m
