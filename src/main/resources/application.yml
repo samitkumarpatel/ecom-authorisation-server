@@ -40,3 +40,20 @@ spring:
             require-proof-key: true
             token:
               access-token-time-to-live: 15m
+          spa-client:
+            registration:
+              client-id: "spa-client"
+              client-authentication-methods:
+                - "none"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+              redirect-uris:
+                - "http://localhost:5173/callback"
+              scopes:
+                - "openid"
+                - "profile"
+            require-authorization-consent: true
+            require-proof-key: true
+            token:
+              access-token-time-to-live: 15m

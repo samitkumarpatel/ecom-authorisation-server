@@ -14,7 +14,7 @@ public record User(@Id Integer id, String username, String password) implements 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(
-                new SimpleGrantedAuthority("ROLE_READ")
+                new SimpleGrantedAuthority("READ")
         );
     }
 
